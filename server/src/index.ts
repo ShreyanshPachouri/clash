@@ -18,9 +18,12 @@ app.set("views", path.resolve(__dirname, './views'))
 app.get("/", async(req: Request, res: Response) => {
     const html = await ejs.renderFile(__dirname + `/views/emails/welcome.ejs`, { name: "Shreyansh Pachouri"})
     
-    await sendMail("dicogi6040@omanarts.com", "Testing SMTP", html)
+    //await sendMail("dicogi6040@omanarts.com", "Testing SMTP", html)
+
+    await emailQueue.add(emailQueueName, { to: "hoyesin903@omanarts.com", subject: "Testing queue email", body: html})
     return res.json({ msg: "Email sent successfully"})
 })
 
 import './jobs/index.js'
+import { emailQueue, emailQueueName } from "./jobs/EmailJob.js"
 app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`))
