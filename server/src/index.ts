@@ -22,4 +22,5 @@ app.get("/", async(req: Request, res: Response) => {
     return res.json({ msg: "Email sent successfully"})
 })
 
+import './jobs/index.js'
 app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`))
