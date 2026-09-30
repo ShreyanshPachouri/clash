@@ -29,7 +29,7 @@ router.post("/register", async(req: Request, res: Response) => {
         await prisma.user.create({
             data: {
                 name: payload.name,
-                email: payload.name,
+                email: payload.email,
                 password: payload.password
             }
         })
