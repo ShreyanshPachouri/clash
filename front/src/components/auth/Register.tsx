@@ -4,7 +4,7 @@ import { Label } from '../ui/label'
 import { registerAction } from '@/actions/authActions'
 import { SubmitButton } from '../common/SubmitButton'
 import { Input } from '../ui/input'
-import { useFormState } from 'react-dom'
+import { useActionState } from "react";
 
 export default function Register() {
     const initState = {
@@ -13,7 +13,7 @@ export default function Register() {
         errors: {}
     }
 
-    const[state, formAction] = useFormState(registerAction, initState)
+    const[state, formAction] = useActionState(registerAction, initState)
 
     return (
         <form action = { formAction }>
@@ -32,15 +32,15 @@ export default function Register() {
             <div className = "mt-4">
                 <Label htmlFor = "password">Password</Label>
                 <Input id = "password" type = "password" name = "password" placeholder = "Enter your password">
-                <span className = "text-red-500">{state.errors.password}</span>
                 </Input>
+                <span className = "text-red-500">{state.errors.password}</span>
             </div>
 
             <div className = "mt-4">
                 <Label htmlFor = "cpassword">Confirm Password</Label>
                 <Input id = "cpassword" type = "password" name = "confirm_password" placeholder = "Confirm your password">
-                <span className = "text-red-500">{state.errors.confirm_password}</span>
                 </Input>
+                <span className = "text-red-500">{state.errors.confirm_password}</span>
             </div>
 
             <div className = "mt-4">
