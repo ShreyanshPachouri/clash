@@ -5,7 +5,8 @@ import axios, { AxiosError } from "axios"
 
 export async function registerAction(prevState: any, formdata: FormData){
     try{
-       const { data } =  await axios.post(REGISTER_URL, formdata)
+        const payload = Object.fromEntries(formdata.entries())
+        const { data } =  await axios.post(REGISTER_URL, payload)
 
         return{
             status: 200,
