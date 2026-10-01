@@ -1,10 +1,10 @@
 import { Router, type Request, type Response} from "express";
 import { registerSchema } from "../validations/authValidation.js";
-import { formatError, ZodError } from "zod";
+import {  ZodError } from "zod";
 import prisma from "../config/database.js";
 import bcrypt from "bcrypt"
 import { v4 as uuid4 } from "uuid"
-import { renderEmailEjs } from "../helper.js";
+import { renderEmailEjs, formatError } from "../helper.js";
 import { emailQueue, emailQueueName } from "../jobs/EmailJob.js";
 
 const router = Router()

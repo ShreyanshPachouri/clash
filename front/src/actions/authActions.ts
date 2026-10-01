@@ -32,6 +32,4 @@ export async function registerAction(prevState: any, formdata: FormData){
             errors: {}
         }
     }
-
-    console.log("The form data is", formdata)
 }

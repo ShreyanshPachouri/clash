@@ -1,10 +1,12 @@
 "use client"
 
+import { useEffect } from 'react'
 import { Label } from '../ui/label'
 import { registerAction } from '@/actions/authActions'
 import { SubmitButton } from '../common/SubmitButton'
 import { Input } from '../ui/input'
 import { useActionState } from "react";
+import { toast } from 'sonner'
 
 export default function Register() {
     const initState = {
@@ -14,6 +16,15 @@ export default function Register() {
     }
 
     const[state, formAction] = useActionState(registerAction, initState)
+    useEffect(() => {
+        if (state.status === 500) {
+            toast.error(state.message)
+        }
+
+        else if(state.status === 200){
+            toast.success(state.message)
+        }
+    }, [state])
 
     return (
         <form action = { formAction }>
