@@ -7,9 +7,11 @@ import { v4 as uuid4 } from "uuid"
 import { renderEmailEjs, formatError } from "../helper.js";
 import { emailQueue, emailQueueName } from "../jobs/EmailJob.js";
 import jwt from "jsonwebtoken"
+import authMiddleware from "../middleware/AuthMiddleware.js";
 
 const router = Router()
 
+//login routes
 router.post("/login", async(req: Request, res: Response) => {
     try{
         const body = req.body
@@ -56,6 +58,7 @@ router.post("/login", async(req: Request, res: Response) => {
             return res.status(422).json({ messages: "Invalid format", errors})
         }
 
+        console.log(error)
         return res.status(500).json({ message: "Something went wrong.", error})
     }
 })
@@ -105,6 +108,11 @@ router.post("/register", async(req: Request, res: Response) => {
 
         return res.status(500).json({ message: "Something went wrong.", error})
     }
+})
+
+router.get("/user", authMiddleware, async(req: Request, res: Response) => {
+    const user = req.user
+    return res.json({ message: "User fetched successfully", data: user })
 })
 
 export default router
