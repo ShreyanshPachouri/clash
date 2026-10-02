@@ -16,6 +16,7 @@ export default function Register() {
     }
 
     const[state, formAction] = useActionState(registerAction, initState)
+    
     useEffect(() => {
         if (state.status === 500) {
             toast.error(state.message)

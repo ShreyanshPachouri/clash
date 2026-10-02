@@ -1,13 +1,64 @@
 import { Router, type Request, type Response} from "express";
-import { registerSchema } from "../validations/authValidation.js";
+import { loginSchema, registerSchema } from "../validations/authValidation.js";
 import {  ZodError } from "zod";
 import prisma from "../config/database.js";
 import bcrypt from "bcrypt"
 import { v4 as uuid4 } from "uuid"
 import { renderEmailEjs, formatError } from "../helper.js";
 import { emailQueue, emailQueueName } from "../jobs/EmailJob.js";
+import jwt from "jsonwebtoken"
 
 const router = Router()
+
+router.post("/login", async(req: Request, res: Response) => {
+    try{
+        const body = req.body
+        const payload = loginSchema.parse(body)
+
+        let user = await prisma.user.findUnique({
+            where: {
+                email: payload.email
+            }
+        })
+
+        if(!user || user === null){
+            return res.status(422).json({ errors: {
+                email: "Email not found."
+            }})
+        }
+
+        const compare = await bcrypt.compare(payload.password, user.password)
+
+        if(!compare){
+            return res.status(422).json({ errors: {
+                email: "Password or email is incorrect."
+            }})
+        }
+
+        let JWTPayload = {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        }
+        
+        const token = jwt.sign(JWTPayload, process.env.JWT_SECRET as string, { expiresIn: "365d" })
+
+        return res.json({ message: "Login successful", 
+            data: {
+                ...JWTPayload,
+                token: `Bearer ${token}`
+            }
+        })
+
+    } catch(error){
+        if(error instanceof ZodError){
+            const errors = formatError(error)
+            return res.status(422).json({ messages: "Invalid format", errors})
+        }
+
+        return res.status(500).json({ message: "Something went wrong.", error})
+    }
+})
 
 //auth routes
 router.post("/register", async(req: Request, res: Response) => {
