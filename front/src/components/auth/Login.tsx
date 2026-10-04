@@ -16,12 +16,15 @@ export default function Login() {
     errors: {},
     data: {},
   };
+
   const [state, formAction] = useActionState(loginAction, initialState);
 
   useEffect(() => {
     if (state.status === 500) {
       toast.error(state.message);
-    } else if (state.status === 200) {
+    } 
+    
+    else if (state.status === 200) {
       toast.success(state.message);
       signIn("credentials", {
         email: state.data?.email,

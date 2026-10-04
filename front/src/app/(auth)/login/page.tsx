@@ -1,5 +1,4 @@
 import Login from "@/components/auth/Login";
-import React from "react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
@@ -7,9 +6,11 @@ import { redirect } from "next/navigation";
 
 export default async function login() {
   const session = await getServerSession(authOptions);
+  
   if (session !== null) {
     redirect("/dashboard");
   }
+
   return (
     <div className="flex justify-center items-center h-screen ">
       <div className="w-full md:w-[550px] shadow-md rounded-xl py-5 px-10 bg-white">
