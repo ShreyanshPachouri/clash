@@ -8,11 +8,12 @@ import { renderEmailEjs, formatError } from "../helper.js";
 import { emailQueue, emailQueueName } from "../jobs/EmailJob.js";
 import jwt from "jsonwebtoken"
 import authMiddleware from "../middleware/AuthMiddleware.js";
+import { authLimiter } from "../config/rateLimit.js";
 
 const router = Router()
 
 //login routes
-router.post("/login", async(req: Request, res: Response) => {
+router.post("/login", authLimiter, async(req: Request, res: Response) => {
     try{
         const body = req.body
         const payload = loginSchema.parse(body)
@@ -52,7 +53,9 @@ router.post("/login", async(req: Request, res: Response) => {
             }
         })
 
-    } catch(error){
+    } 
+    
+    catch(error){
         if(error instanceof ZodError){
             const errors = formatError(error)
             return res.status(422).json({ messages: "Invalid format", errors})
@@ -63,7 +66,7 @@ router.post("/login", async(req: Request, res: Response) => {
     }
 })
 
-router.post("/check/credentials", async(req: Request, res: Response) => {
+router.post("/check/credentials", authLimiter, async(req: Request, res: Response) => {
     try{
         const body = req.body
         const payload = loginSchema.parse(body)
@@ -104,7 +107,7 @@ router.post("/check/credentials", async(req: Request, res: Response) => {
 })
 
 //auth routes
-router.post("/register", async(req: Request, res: Response) => {
+router.post("/register", authLimiter, async(req: Request, res: Response) => {
    try{
         const body = req.body
         const payload = registerSchema.parse(body)
