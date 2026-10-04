@@ -3,9 +3,10 @@ import type { ZodError } from "zod";
 import path from 'path'
 import { fileURLToPath } from "url"
 import moment from "moment"
-import { supportedMimes } from "../src/config/filesystem.js"
+import { supportedMimes } from "./config/filesystem.js"
 import { v4 as uuid4 } from "uuid"
 import type { UploadedFile } from "express-fileupload";
+import fs from "fs"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -52,7 +53,7 @@ export const imageValidator = (size: number, mime: string): string | null => {
 export const uploadFile = async(image: UploadedFile) => {
     const imgExt = image?.name.split('.')
     const imageName = uuid4() + "." + imgExt[1]
-    const uploadPath = process.cwd() + "/public/images" + imageName
+    const uploadPath = process.cwd() + "/public/images/" + imageName
 
     image.mv(uploadPath, (err) => {
         if(err){
@@ -62,4 +63,12 @@ export const uploadFile = async(image: UploadedFile) => {
     })
 
     return imageName
+}
+
+export const removeImage = (imageName: string) => {
+    const path = process.cwd() + "/public/images/" + imageName
+
+    if(fs.existsSync(path)){
+        fs.unlinkSync(path)
+    }
 }
