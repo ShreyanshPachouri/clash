@@ -41,8 +41,8 @@ router.post("/forget-password", authLimiter, async (req: Request, res: Response)
             }
         })
 
-        const url = `${process.env.FRONTEND_URL}/reset-password?email=${payload.email}&token=${token}`
-        const html = await renderEmailEjs("forget-password", { url: url })
+        const url = `${process.env.CLIENT_APP_URL}/reset-password?email=${payload.email}&token=${token}`
+        const html = await renderEmailEjs("forget-password", { name: user.name, url: url })
 
         await emailQueue.add(emailQueueName, { to: payload.email, subject: "Reset Password", body: html})
 
@@ -52,7 +52,7 @@ router.post("/forget-password", authLimiter, async (req: Request, res: Response)
     catch(error){
         if(error instanceof ZodError){
             const errors = formatError(error)
-            return res.status(422).json({ messages: "Invalid format", errors})
+            return res.status(422).json({ message: "Invalid format", errors})
         }
     
         console.log(error)
