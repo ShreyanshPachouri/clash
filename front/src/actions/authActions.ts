@@ -40,16 +40,19 @@ export async function loginAction(prevState: any, formData: FormData) {
       email: formData.get("email"),
       password: formData.get("password"),
     });
+
     return {
       status: 200,
-      message: "Credentials matched loging you shortly!",
+      message: "Credentials matched logging you in shortly!",
       errors: {},
       data: {
         email: formData.get("email"),
         password: formData.get("password"),
       },
     };
-  } catch (error) {
+  } 
+  
+  catch (error) {
     if (error instanceof AxiosError) {
       if (error.response?.status === 422) {
         return {
@@ -59,6 +62,7 @@ export async function loginAction(prevState: any, formData: FormData) {
         };
       }
     }
+
     return {
       status: 500,
       message: "Something went wrong.please try again!",
