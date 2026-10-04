@@ -10,7 +10,7 @@ import { emailQueue, emailQueueName } from "../jobs/EmailJob.js"
 
 const router = Router()
 
-router.post("/forgot-password", authLimiter, async (req: Request, res: Response) => {
+router.post("/forget-password", authLimiter, async (req: Request, res: Response) => {
     try{
         const body = req.body
         const payload = forgetPasswordSchema.parse(body)

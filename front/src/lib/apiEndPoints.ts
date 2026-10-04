@@ -5,8 +5,8 @@ export const LOGIN_URL = BACKEND_URL + "/api/auth/login";
 export const CHECK_CREDENTIALS_URL = BACKEND_URL + "/api/auth/check/credentials";
 export const REGISTER_URL = BACKEND_URL + "/api/auth/register";
 // keep the rest as they are
-export const FORGOT_PASSWORD_URL = BACKEND_URL + "/api/forget-password";
-export const RESET_PASSWORD_URL = BACKEND_URL + "/api/reset-password";
+export const FORGOT_PASSWORD_URL = BACKEND_URL + "/api/auth/forget-password";
+export const RESET_PASSWORD_URL = BACKEND_URL + "/api/auth/reset-password";
 
 //  Clash URL
 export const CLASH_URL = BACKEND_URL + "/api/clash";

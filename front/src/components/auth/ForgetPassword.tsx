@@ -1,0 +1,41 @@
+"use client";
+
+import { useActionState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { SubmitButton } from "../common/SubmitButton";
+import { forgotPasswordAction } from "../../actions/authActions";
+import { toast } from "sonner";
+
+export default function ForgotPassword() {
+  const initialState = {
+    message: "",
+    status: 0,
+    errors: {},
+  };
+  const [state, formAction] = useActionState(forgotPasswordAction, initialState);
+
+  useEffect(() => {
+    if (state.status === 500) {
+      toast.error(state.message);
+    } 
+    
+    else if (state.status === 200) {
+      toast.success(state.message);
+    }
+  }, [state]);
+
+  return (
+    <form action={formAction}>
+      <div className="mt-4">
+        <Label htmlFor="email">Email</Label>
+        <Input placeholder="Type your email" name="email" />
+        <span className="text-red-400">{state.errors?.email}</span>
+      </div>
+
+      <div className="mt-4">
+        <SubmitButton />
+      </div>
+    </form>
+  );
+}
