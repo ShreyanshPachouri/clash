@@ -1,9 +1,10 @@
 import Env from "./env";
 
 export const BACKEND_URL = Env.BACKEND_URL;
-export const LOGIN_URL = BACKEND_URL + "/api/login";
-export const CHECK_CREDENTIALS_URL = BACKEND_URL + "/api/check/login";
-export const REGISTER_URL = BACKEND_URL + "/api/register";
+export const LOGIN_URL = BACKEND_URL + "/api/auth/login";
+export const CHECK_CREDENTIALS_URL = BACKEND_URL + "/api/auth/check/credentials";
+export const REGISTER_URL = BACKEND_URL + "/api/auth/register";
+// keep the rest as they are
 export const FORGOT_PASSWORD_URL = BACKEND_URL + "/api/forget-password";
 export const RESET_PASSWORD_URL = BACKEND_URL + "/api/reset-password";
 
